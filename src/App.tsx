@@ -1,39 +1,16 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import Loader from 'react-loader-spinner';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Bar from './component/Bar';
+import CommunityPage from './component/CommunityPage';
+import LoginPage from './component/LoginPage';
 import Page from './component/Page';
-import { useDispatchContext, useUserContext } from './hooks/useContext';
+import { useAppContext } from './hooks/useAppState';
+import { useUserContext } from './hooks/useContext';
 
 export default function App() {
-  const history = useHistory();
-  const dispatch = useDispatchContext();
   const { isOnline } = useUserContext();
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const [isError, setError] = useState<boolean>(false);
-
-  const handleLogin = () => {
-    setLoading(true);
-    // 실제 구현에서는 백엔드 서버와 통신하여 async로 login 절차 진행
-    // 회원 정보 있으면 로그인 -> 세션 유지되는 동안은 접속시 자동 로그인
-    // 회원 정보 없으면 회원가입
-    axios.get('https://jsonplaceholder.typicode.com/users/1')
-      .finally(() => {
-        setLoading(false);
-      })
-      .then((response) => {
-        dispatch({
-          type: 'login',
-          info: { 
-            name: response.data.name,
-            img: 'https://avatars.githubusercontent.com/u/57004991?v=4',
-          }
-        });
-        history.push('/');
-      })
-      .catch((error) => { setError(true) });
-  }
+  const { isError, isLoading } = useAppContext();
 
   const content = isOnline ? (
     <>
@@ -41,27 +18,27 @@ export default function App() {
       <Switch>
         <Route path="/game" render={() => <Page>game</Page>} />
         <Route path="/profile" render={() => <Page>profile</Page>} />
-        <Route path="/community" render={() => <Page>community</Page>} />
+        <Route path="/community" component={CommunityPage} />
         <Route path="/channel" render={() => <Page>channel</Page>} />
         <Route path="/" render={() => <Page>main</Page>} />
       </Switch>
     </>
   ) : (
-    <>
-      <Route path="/" render={() => <Page>please login</Page>} />
-      <button onClick={handleLogin}>fake login</button>
-      {isLoading && <Loader
-        // Loader는 Material UI progress bar로 대체할 수 있을 듯
-        type="Oval"
-        color="#00BFFF"
-        height={100}
-        width={100}
-        timeout={3000} //3 secs
-      />}
-    </>
+    <Route path="/" component={LoginPage} />
   );
 
-  return (<>
+  return (
+  <>
+    {isLoading && <Loader
+      // Loader는 Material UI progress bar로 대체할 수 있을 듯
+      // 그리고 전체 UI에 통일해서 적용하기보다는 각각에 적용하고 일부는 스켈레톤 UI 쓰는 게 좋을 듯
+      type="Oval"
+      color="#00BFFF"
+      height={100}
+      width={100}
+      timeout={3000} //3 secs
+    />}
     {isError ? <div>Error! Please refresh</div> : content}
-  </>);
+  </>
+  );
 };

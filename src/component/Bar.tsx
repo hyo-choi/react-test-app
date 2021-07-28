@@ -12,13 +12,15 @@ export default function Bar() {
   }
 
   return (
-    <ol>
-      <ul><Link to="/">main</Link></ul>
-      <ul><Link to="/game">game</Link></ul>
-      <ul><Link to="/profile">profile</Link></ul>
-      <ul><Link to="/community">community</Link></ul>
-      <ul><Link to="/channel">channel</Link></ul>
-      <ul><button onClick={handleLogout}>fake logout</button></ul>
-    </ol>
+    <nav>
+      <ol>
+        <ul><Link to="/">main</Link></ul>
+        <ul><Link to="/game">game</Link></ul>
+        <ul><Link to="/profile">profile</Link></ul>
+        <ul><Link to="/community">community</Link></ul>
+        <ul><Link to="/channel">channel</Link></ul>
+        <ul><button onClick={handleLogout}>fake logout</button></ul>
+      </ol>
+    </nav>
   );
 }
