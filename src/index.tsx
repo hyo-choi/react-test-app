@@ -7,7 +7,7 @@ import { AppStateProvider } from './hooks/useAppState';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.REACT_APP_PATH}>
       <ContextProvider>
         <AppStateProvider>
           <App />
