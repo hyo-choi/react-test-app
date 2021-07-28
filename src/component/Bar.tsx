@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatchContext } from '../hooks/useContext';
+import { useDispatchContext, useUserContext } from '../hooks/useContext';
 
-export default function Bar() {
+function Bar() {
   const history = useHistory();
   const dispatch = useDispatchContext();
+  const { name } = useUserContext();
 
   const handleLogout = () => {
     dispatch({ type: 'logout' });
@@ -19,8 +20,11 @@ export default function Bar() {
         <ul><Link to="/profile">profile</Link></ul>
         <ul><Link to="/community">community</Link></ul>
         <ul><Link to="/channel">channel</Link></ul>
+        <ul>Logged in: {name}</ul>
         <ul><button onClick={handleLogout}>fake logout</button></ul>
       </ol>
     </nav>
   );
 }
+
+export default React.memo(Bar);

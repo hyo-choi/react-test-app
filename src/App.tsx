@@ -5,6 +5,7 @@ import Bar from './component/Bar';
 import CommunityPage from './component/CommunityPage';
 import LoginPage from './component/LoginPage';
 import Page from './component/Page';
+import ProfilePage from './component/ProfilePage';
 import { useAppContext } from './hooks/useAppState';
 import { useUserContext } from './hooks/useContext';
 
@@ -17,7 +18,7 @@ export default function App() {
       <Bar />
       <Switch>
         <Route path="/game" render={() => <Page>game</Page>} />
-        <Route path="/profile" render={() => <Page>profile</Page>} />
+        <Route path="/profile" component={ProfilePage} />
         <Route path="/community" component={CommunityPage} />
         <Route path="/channel" render={() => <Page>channel</Page>} />
         <Route path="/" render={() => <Page>main</Page>} />
