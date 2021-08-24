@@ -26,7 +26,10 @@ export default function ChannelPage() {
       socket.on('chat message', (msg) => {
         setMsgs((prev) => prev.concat(msg));
       });
-    } else setValidPage(false);
+      socket.on('connect_error', () => {
+        setValidPage(false);
+      });
+    }
 
     return () => { socket && socket.disconnect(); };
   }, [socket]);
