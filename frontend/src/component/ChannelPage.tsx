@@ -22,6 +22,7 @@ export default function ChannelPage() {
 
   useEffect(() => {
     if (socket) {
+      setValidPage(true);
       socket.on('chat message', (msg) => {
         setMsgs((prev) => prev.concat(msg));
       });
