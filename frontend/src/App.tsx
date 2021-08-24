@@ -1,7 +1,8 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
-import { Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import Bar from './component/Bar';
+import ChannelPage from './component/ChannelPage';
 import CommunityPage from './component/CommunityPage';
 import LoginPage from './component/LoginPage';
 import Page from './component/Page';
@@ -16,11 +17,18 @@ export default function App() {
   const content = isOnline ? (
     <>
       <Bar />
+      <Route path="/channel" render={() => (
+        <>
+          <button><NavLink to="/channel/channel1">channel1</NavLink></button>
+          <button><NavLink to="/channel/channel2">channel2</NavLink></button>
+        </>
+        )}
+      />
       <Switch>
         <Route path="/game" render={() => <Page>game</Page>} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/community" component={CommunityPage} />
-        <Route path="/channel" render={() => <Page>channel</Page>} />
+        <Route exact path="/channel/:channel" component={ChannelPage} />
         <Route path="/" render={() => <Page>main</Page>} />
       </Switch>
     </>
